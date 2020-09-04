@@ -1,6 +1,5 @@
 import { db } from "../models/index.js";
 import { logger } from "../config/logger.js";
-import gradeModel from "../models/gradeModel.js";
 
 const GradeModel = db.gradeModel;
 
@@ -30,7 +29,7 @@ const findAll = async (req, res) => {
     : {};
 
   try {
-    const grade = await gradeModel.find({ condition });
+    const grade = await GradeModel.find(condition);
 
     if (!grade) {
       res.status(404).send("Dados não encontrados");

@@ -1,8 +1,10 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import cors from 'cors';
+import express from "express";
+import bodyParser from "body-parser";
+import cors from "cors";
+import { logger } from "./config/logger.js";
+import { gradeRouter } from "./routes/gradeRouter.js";
 
-import { db } from './models/index.js';
+import { db } from "./models/index.js";
 
 (async () => {
   try {
@@ -10,7 +12,9 @@ import { db } from './models/index.js';
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
+    logger.info('Conectado ao MongoDB Atlas');
   } catch (error) {
+    logger.info('Erro ao conectar ao MongoDB Atlas');
     process.exit();
   }
 })();
@@ -25,9 +29,13 @@ app.use(
     origin: 'https://igti-app-module-4.herokuapp.com',
   })
 );
+app.use(gradeRouter);
 
-app.get('/', (req, res) => {
-  res.send('API em execucao');
+app.get("/", (req, res) => {
+  res.send("API em execucao");
 });
 
-app.listen(process.env.PORT || 8081, () => {});
+app.listen(process.env.PORT || 8081, () => {
+  console.log(db.url);
+  logger.info(`API rodando na porta ${process.env.PORT}`);
+});
