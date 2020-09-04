@@ -98,7 +98,7 @@ const remove = async (req, res) => {
 
   try {
 
-    const grade = GradeModel.findByIdAndRemove({_id: id});
+    const grade = await GradeModel.findByIdAndRemove({_id: id});
 
     if (!grade) {
       res.status(404).send("Dados não encontrados");
@@ -118,7 +118,7 @@ const remove = async (req, res) => {
 const removeAll = async (req, res) => {
   try {
 
-    const grade = GradeModel.deleteMany();
+    const grade = await GradeModel.deleteMany();
 
     if (!grade) {
       res.status(404).send("Dados não encontrados");
